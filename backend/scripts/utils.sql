@@ -1,5 +1,0 @@
-/*
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE table tbl_paises;
-SET FOREIGN_KEY_CHECKS = 1;
-*/
