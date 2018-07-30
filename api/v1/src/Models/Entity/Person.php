@@ -3,6 +3,12 @@
 namespace App\Models\Entity;
 
 /**
+*
+   
+**/
+
+
+/**
  * @Entity @Table(name="tbl_persons")
  **/
 class Person {
@@ -20,11 +26,6 @@ class Person {
      */
     protected $name;
 
-    /**
-     * @var string
-     * @Column(type="string") 
-     */
-    protected $email;
 
     /**
      * @var string
@@ -36,19 +37,63 @@ class Person {
      * @var string
      * @Column(type="string") 
      */
-    protected $site;
+    protected $street;
+
+    /**
+     * @var int
+     * @Column(type="integer") 
+     */
+    protected $streetNumber;
 
     /**
      * @var string
      * @Column(type="string") 
      */
-    protected $address;
+    protected $district;
 
     /**
      * @var string
      * @Column(type="string") 
      */
-    protected $cpf;
+    protected $additionalAddressDetails;
+
+    /**
+     * @var string
+     * @Column(type="string") 
+     */
+    protected $zipCode;
+
+    /**
+     * @var int
+     * @Id @Column(type="integer") 
+     */
+    protected $idCity;
+
+    /**
+     * @var int
+     * @Column(type="integer") 
+     */
+    protected $type;
+
+
+    /**
+     * @var string
+     * @Column(type="string") 
+     */
+    protected $cpf_cnpj;
+
+    /**
+     * @var string
+     * @Column(type="string") 
+     */
+    protected $dateOfBirth;
+
+      /**
+     * @var char
+     * @Column(type="char") 
+     */
+    protected $sex;
+
 
     //Gets...
 
@@ -60,25 +105,51 @@ class Person {
         return $this->name;
     }
 
-    public function getEmail() {
-        return $this->email;
-    }
 
     public function getPhone() {
         return $this->phone;
     }
 
-    public function getSite() {
-        return $this->site;
+    public function getStreet() {
+        return $this->street;
     }
 
-    public function getAddress() {
-        return $this->address;
+    public function getStreetNumber() {
+        return $this->streetNumber;
+    }
+
+    public function getDistrict() {
+        return $this->district;
+    }
+
+    public function getAdditionalAddressDetails() {
+        return $this->additionalAddressDetails;
+    }  
+
+    public function getZipCode() {
+        return $this->zipCode;
     }    
 
-    public function getCPF() {
-        return $this->cpf;
-    }    
+    public function getIdCity() {
+        return $this->idCity;
+    }
+
+    public function getType() {
+        return $this->type;
+    }
+
+    public function getCpfCnpj() {
+        return $this->cpf_cnpj;
+    }
+
+    public function getDateOfBirth() {
+        return $this->dateOfBirth;
+    }
+
+    public function getSex() {
+        return $this->sex;
+    }
+    
 
     //Sets...   
 
@@ -92,25 +163,52 @@ class Person {
         
     }
 
-    public function setEmail($email) {
-        $this->email = $email;
-    }
 
     public function setPhone($phone) {
         $this->phone = $phone;
     }
 
-    public function setSite($site) {
-        $this->site = $site;
+    public function setStreet($street) {
+        $this->street = $street;
     }
 
-    public function setAddress($address) {
-        $this->address = $address;
+    public function setStreetNumber($streetNumber) {
+        $this->streetNumber = $streetNumber;
     }    
 
-    public function setCPF($cpf) {
-        $this->cpf = $cpf;
+    public function setDistrict($district) {
+        $this->district = $district;
     }
+
+    public function seAdditionalAddressDetails($additionalAddressDetails) {
+        $this->additionalAddressDetails = $additionalAddressDetails;
+    }  
+
+    public function seetZipCode($zipCode) {
+        $this->zipCode = $zipCode;
+    }    
+
+    public function setIdCity($idCity) {
+        $this->idCity = $idCity;
+    }
+
+    public function setType($type) {
+        $this->type = $type;
+    }
+
+    public function setCpfCnpj($cpf_cnpj) {
+        $this->cpf_cnpj = $cpf_cnpj;
+    }
+
+    public function setDateOfBirth($dateOfBirth) {
+        $this->dateOfBirth = $dateOfBirth;
+    }
+
+    public function setSex($sex) {
+        $this->sex = $sex;
+    }
+
+    
 }
 
  ?>

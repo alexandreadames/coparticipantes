@@ -1,0 +1,8 @@
+.form-check-label{
+  color: white;
+}
+.form-check-radio input[type="radio"]:checked + .form-check-sign::after{
+  border: 1px solid #ffffff;
+  color: white;
+  background-color: white;
+}

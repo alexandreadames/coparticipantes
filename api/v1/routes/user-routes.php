@@ -60,6 +60,24 @@ $app->get('/secure/user-personaldata-profile', function (Request $request, Respo
 
 /**
  * Cadastra um novo usuário
+ * Ex.
+ *
+ {
+    "email": "alexandre.adames@gmail.com",
+    "password": "teste",
+    "name": "Alexandre",
+    "phone": "(84) 988285116",
+    "street": "Avenida Brigadeiro Salema",
+    "street_number": 714,
+    "district": "Alto de São Manoel",
+    "additional_address_details": "Apto 103 BL A1",
+    "zip_code": "59628030",
+    "id_city": 35,
+    "type": "F",
+    "cpf_cnpj": "04983863419",
+    "date_of_birth": "1984-08-11", 
+    "sex": "M" 
+}
  */
 $app->post('/user/register', function (Request $request, Response $response) use ($app) {
 
@@ -67,15 +85,25 @@ $app->post('/user/register', function (Request $request, Response $response) use
 
     $user = new User();
 
-    $user->setName($params->name);
+    //User
     $user->setEmail($params->email);
-    $user->setPhone($params->phone);
-    $user->setSite($params->site);
-    $user->setAddress($params->address);
-    $user->setCPF($params->cpf);
-    $user->setLogin($params->login);
     $user->setPassword($params->password);
 
+    //Person
+    $user->setName($params->name);
+    $user->setPhone($params->phone);
+    $user->setStreet($params->street);
+    $user->setStreetNumber($params->street_number);
+    $user->setDistrict($params->district);
+    $user->seAdditionalAddressDetails($params->additional_address_details);
+    $user->seetZipCode($params->zip_code);
+    $user->setIdCity($params->id_city);
+    $user->setType($params->type);
+    $user->setCpfCnpj($params->cpf_cnpj);
+    $user->setDateOfBirth($params->date_of_birth);
+    $user->setSex($params->sex);
+
+    
     $userDAO = new UserDAO();
 
     $result = $userDAO->register($user);
@@ -103,7 +131,7 @@ $app->post('/user/login', function (Request $request, Response $response) use ($
 
     $userDAO = new UserDAO();
 
-    $result = $userDAO->login($params->login, $params->password );
+    $result = $userDAO->login($params->email, $params->password );
     
     $return = $response->withJson($result, 200)
         ->withHeader('Content-type', 'application/json; charset=utf-8');

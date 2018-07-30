@@ -21,7 +21,7 @@ class User extends Person {
      * @var string
      * @Column(type="string") 
      */
-    protected $login;
+    protected $email;
 
     /**
      * @var string
@@ -36,8 +36,8 @@ class User extends Person {
         return $this->id;
     }
 
-    public function getLogin(){
-        return $this->login;
+    public function getEmail(){
+        return $this->email;
     }
 
     public function getPassword() {
@@ -52,8 +52,8 @@ class User extends Person {
         $this->id = $id;
     }
 
-    public function setLogin($login){
-        $this->login = $login;
+    public function setEmail($email){
+        $this->email = $email;
     }
 
     public function setPassword($password) {

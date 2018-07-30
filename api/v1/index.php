@@ -33,6 +33,8 @@ require_once("routes/user-profile-routes.php");
 require_once("routes/payments-routes.php");
 //Donations Routes
 require_once("routes/donations-routes.php");
+//Location Routes
+require_once("routes/location-routes.php");
 
 //Test Routes COMMENTED
 //require_once("routes/test-routes.php");

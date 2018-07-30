@@ -16,6 +16,11 @@
 }
 .section-signup{
     padding-top: 20vh;
+
+    select option {
+        color: whitesmoke !important;
+        background: $primary-color !important;
+      }
 }
 
 .page-header{

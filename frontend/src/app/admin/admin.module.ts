@@ -10,6 +10,7 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
 import { AdminFooterComponent } from './admin-footer/admin-footer.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { IconsComponent } from './components/icons/icons.component';
 
 import { AdminRoutes } from './admin-routing';
 
@@ -27,7 +28,8 @@ import { AdminRoutes } from './admin-routing';
     AdminNavbarComponent,
     AdminSidebarComponent,
     AdminFooterComponent,
-    DashboardComponent
+    DashboardComponent,
+    IconsComponent
   ],
   exports: [
     AdminNavbarComponent,

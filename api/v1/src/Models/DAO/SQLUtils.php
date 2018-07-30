@@ -8,7 +8,7 @@ class SQLUtils {
 		const HOSTNAME = "127.0.0.1";
 		const USERNAME = "root";
 		const PASSWORD = "";
-		const DBNAME = "db_sysdonation";
+		const DBNAME = "coparticipantesdb";
 	
 	//Production in SiteGround
 		//const HOSTNAME = "localhost";
@@ -23,7 +23,7 @@ class SQLUtils {
 	{
 
 		$this->conn = new \PDO(
-			"mysql:dbname=".SQLUtils::DBNAME.";host=".SQLUtils::HOSTNAME, 
+			"mysql:dbname=".SQLUtils::DBNAME.";charset=UTF8;host=".SQLUtils::HOSTNAME, 
 			SQLUtils::USERNAME,
 			SQLUtils::PASSWORD
 		);
@@ -71,7 +71,14 @@ class SQLUtils {
 
 		$stmt->execute();
 
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		if (!$stmt->execute()) {
+    		return $stmt->errorInfo();
+		}
+		else{
+			return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+		}
+
+		
 
 	}
 

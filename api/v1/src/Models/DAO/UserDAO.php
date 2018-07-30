@@ -12,7 +12,7 @@ use \App\Models\Utils\TokenUtils;
 class UserDAO {
 
 
-	public static function login($login, $password){
+	public static function login($email, $password){
 		
 		$sql = new SQLUtils();
 
@@ -64,20 +64,59 @@ public function register($user){
 	$user->setPassword($pass_encrypt);
 
 	$sql = new SQLUtils();
+		
 
-		$results = $sql->select("CALL sp_users_save(:pname, :pemail, :pphone, :psite, :paddress, :pcpf, :plogin, :ppassword)", array(
-			":pname"=>$user->getName(),
-			":pemail"=>$user->getEmail(),
-			":pphone"=>$user->getPhone(),
-			":psite"=>$user->getSite(),
-			":paddress"=>$user->getAddress(),
-			":pcpf"=>$user->getCPF(),
-			":plogin"=>$user->getLogin(),
-			":ppassword"=>$user->getPassword()
+		$results = $sql->select("CALL sp_users_save(
+			:pemail,
+			:ppassword,
+			:pname, 
+			:pphone,
+			:pstreet,
+			:pstreet_number,
+			:pdistrict,
+			:padditional_address_details,
+			:pzip_code,
+			:pid_city,
+			:ptype,
+			:pcpf_cnpj,
+			:pdate_of_birth, 
+			:psex)", 
+			array(
+			":pemail" => $user->getEmail(),
+	    	":ppassword"=>$user->getPassword(),
+			":pname" => $user->getName(),
+			":pphone" => $user->getPhone(),
+			":pstreet" => $user->getStreet(),
+			":pstreet_number" => $user->getStreetNumber(),
+			":pdistrict" => $user->getDistrict(),
+			":padditional_address_details" => $user->getAdditionalAddressDetails(),
+			":pzip_code" => $user->getZipCode(),
+			":pid_city" => $user->getIdCity(),
+			":ptype" => $user->getType(),
+			":pcpf_cnpj" => $user->getCpfCnpj(),
+			":pdate_of_birth" => $user->getDateOfBirth(),
+			":psex" => $user->getSex(),
 		));
 
-		$data = $results[0];
-
+		/**
+		For debug
+		$response = "CALL sp_users_save(".
+			$user->getEmail().",".
+	    	$user->getPassword().",".
+			$user->getName().",".
+			$user->getPhone().",".
+			$user->getStreet().",".
+			$user->getStreetNumber().",".
+			$user->getDistrict().",".
+			$user->getAdditionalAddressDetails().",".
+			$user->getZipCode().",".
+			$user->getIdCity().",".
+			$user->getType().",".
+			$user->getCpfCnpj().",".
+			$user->getDateOfBirth().",".
+			$user->getSex().")";
+		*/
+		
 		$custom_payload = array(
 			"userId" => $data["id"]
 		);
@@ -89,7 +128,7 @@ public function register($user){
 		$jwt = TokenUtils::generateToken($custom_payload);
 			
 		$response["data"]["token"]= $jwt;
-			
+
 		return $response;
 
 }
