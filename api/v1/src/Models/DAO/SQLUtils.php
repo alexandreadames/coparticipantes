@@ -69,17 +69,12 @@ class SQLUtils {
 
 		$this->setParams($stmt, $params);
 
-		$stmt->execute();
-
-		if (!$stmt->execute()) {
-    		return $stmt->errorInfo();
-		}
-		else{
+		if ($stmt->execute()){
 			return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
 		}
-
-		
-
+		else {
+			return $stmt->errorInfo();
+		}
 	}
 
 }

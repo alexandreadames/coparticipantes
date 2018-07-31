@@ -1,4 +1,11 @@
 <?php
+
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+/**
+ * Entities
+ */
+use \App\Models\Entity\Person;
 /**
  * Lista de todos os livros
  */
@@ -28,6 +35,35 @@ $app->get('/person/{id}', function (Request $request, Response $response) use ($
     return $return;
 });
 
+/**
+ * Fake Register
+ */
+
+$app->get('/test/register', function (Request $request, Response $response) use ($app) {
+
+    $user = array(
+        "firstName" => "Jonh",
+        "lastName" => "Doe",
+        "email" => "jonhdoe@test.com"
+    );
+
+    $return = $response->withJson($user, 200)
+        ->withHeader('Content-type', 'application/json');
+    return $return;
+});
+
+$app->get('/test/register/error', function (Request $request, Response $response) use ($app) {
+
+    $res = array(
+        "msg"=> "An error occurred",
+        "error" => true
+    );
+    
+
+    $return = $response->withJson($res, 404)
+        ->withHeader('Content-type', 'application/json');
+    return $return;
+});
 
 
 

@@ -15,6 +15,8 @@ import { LandingComponent } from './landing/landing.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminModule } from './admin/admin.module';
 import { RegisterComponent } from './register/register.component';
+import { UserService } from './services/user.service';
+
 
 
 @NgModule({
@@ -35,7 +37,7 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     RegisterComponent
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

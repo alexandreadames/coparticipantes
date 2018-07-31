@@ -38,7 +38,13 @@
                       <div class="input-group-prepend">
                           <span class="input-group-text"><i class="now-ui-icons ui-1_email-85"></i></span>
                       </div>
-                        <input type="text" placeholder="Email..." class="form-control" (focus)="focus2=true" (blur)="focus2=false"/>
+                        <input type="text" 
+                        placeholder="Email..." 
+                        [(ngModel)]="user.email"
+                        name = "email" 
+                        class="form-control" 
+                        (focus)="focus2=true" 
+                        (blur)="focus2=false"/>
                     </div>
 
                     <!-- Password -->
@@ -228,6 +234,37 @@
                                   (blur)="focus=false" >
                               </div>
                       </div>
+
+                      <div class="row">
+                          <!-- District -->
+                            <div class="input-group form-group-no-border col-sm-6" [ngClass]="{'input-group-focus':focus===true}">
+                                <!-- <div class="input-group-prepend">
+                                    <span class="input-group-text">  <i class="now-ui-icons users_single-02"></i></span>
+                                </div> -->
+                                  <input 
+                                  type="text"
+                                  [(ngModel)]="user.district"
+                                  name = "userDistrict" 
+                                  class="form-control" 
+                                  placeholder="Bairro" 
+                                  (focus)="focus=true" 
+                                  (blur)="focus=false" >
+                              </div>
+                              <!-- Additional Address Details -->
+                              <div class="input-group form-group-no-border col-sm-6" [ngClass]="{'input-group-focus':focus===true}">
+                                  <!-- <div class="input-group-prepend">
+                                      <span class="input-group-text">  <i class="now-ui-icons users_single-02"></i></span>
+                                  </div> -->
+                                    <input 
+                                    type="text"
+                                    [(ngModel)]="user.additional_address_details"
+                                    name = "userAdditionalAddressDetails" 
+                                    class="form-control" 
+                                    placeholder="Complemento" 
+                                    (focus)="focus=true" 
+                                    (blur)="focus=false" >
+                                </div>
+                        </div>
                         
 
                       <!-- If you want to add a checkbox to this form, uncomment this code -->
@@ -239,7 +276,7 @@
         </div> -->
                   </div>
                   <div class="footer text-center">
-                      <a href="#pablo" class="btn btn-neutral btn-round btn-lg">Cadastre-se</a>
+                      <button (click)="register()" class="btn btn-neutral btn-round btn-lg">Cadastre-se</button>
                   </div>
               </form>
           </div>

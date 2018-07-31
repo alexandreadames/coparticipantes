@@ -1,5 +1,5 @@
 //Native Components
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Testability } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {NgbDatepickerConfig, NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,7 +9,8 @@ import { environment } from '../../environments/environment';
 //Models
 import { User } from './../models/User';
 
-
+//Services
+import { UserService } from './../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -49,9 +50,11 @@ export class RegisterComponent implements OnInit {
   userPasswordRetyped;
   //Fisic Person by default...
   personType = "1";
+  sex;
 
   constructor(
     private http: HttpClient,
+    private userService: UserService,
     config: NgbDatepickerConfig
   ) { 
     // customize default values of datepickers used by this component tree
@@ -104,6 +107,10 @@ export class RegisterComponent implements OnInit {
       this.cities = res.data.selected_cities;
       this.selectedCity = res.data.selected_location.city_id;
       this.selectedState = res.data.selected_location.state_id;
+      this.user.additional_address_details = res.data.selected_location.addressdetails;
+      this.user.district = res.data.selected_location.district;
+      this.user.street = res.data.selected_location.street;
+
     },
         err => {
           console.log("ERROR=>",err);
@@ -113,5 +120,30 @@ export class RegisterComponent implements OnInit {
   
   updateState(){
 
+  }
+
+  register() {
+
+    //populate user object
+    this.user.password = this.userPassword;
+    this.user.type = parseInt(this.personType);
+    this.user.sex = this.sex;
+    //{year: 2000, month: 7, day: 28}
+    this.user.date_of_birth = `${this.dateOfBirth.year}-${this.dateOfBirth.month}-${this.dateOfBirth.day}`;
+    this.user.id_city = parseInt(this.selectedCity);
+
+    //skip validation
+    let valid = true;
+    if (valid){
+      console.log("USER FOR REGISTER=>",this.user);
+      this.userService.register(this.user).subscribe(
+        res=>console.log(res),
+        error=> console.log(error)
+      );
+    }
+    /*this.userService.register(this.user).subscribe(
+      test=>console.log(test),
+      error=> console.log(error.error)
+    );*/
   }
 }

@@ -16,10 +16,27 @@ class UserDAO {
 		
 		$sql = new SQLUtils();
 
-		$results = $sql->select("SELECT * FROM tbl_users u 
-		INNER JOIN tbl_persons p ON u.tbl_persons_id = p.id 
-		WHERE u.login = :LOGIN", array(
-			":LOGIN"=>$login
+		$results = $sql->select("SELECT u.id AS userId, 
+			       u.email,
+			       u.password, 
+			       p.id AS personId, 
+			       p.name, 
+			       p.phone, 
+			       p.street, 
+			       p.street_number, 
+			       p.district, 
+			       p.additional_address_details, 
+			       p.zip_code, 
+			       p.id_city, 
+			       p.type, 
+			       p.cpf_cnpj, 
+			       p.date_of_birth, 
+			       p.sex 
+			FROM   tbl_users u 
+			       INNER JOIN tbl_persons p 
+			               ON u.tbl_persons_id = p.id 
+			WHERE  u.email = :email", array(
+			":email"=>$email
 		));
 
 		if (count($results) === 0){
@@ -38,7 +55,7 @@ class UserDAO {
 			$response["msg"] = "Login efetuado";
 
 			$custom_payload = array(
-				"userId" => $data["id"]
+				"userId" => $data["userId"]
 			);
 
 			$jwt = TokenUtils::generateToken($custom_payload);
@@ -95,7 +112,7 @@ public function register($user){
 			":ptype" => $user->getType(),
 			":pcpf_cnpj" => $user->getCpfCnpj(),
 			":pdate_of_birth" => $user->getDateOfBirth(),
-			":psex" => $user->getSex(),
+			":psex" => $user->getSex()
 		));
 
 		/**
@@ -116,9 +133,10 @@ public function register($user){
 			$user->getDateOfBirth().",".
 			$user->getSex().")";
 		*/
+		$data = $results[0];
 		
 		$custom_payload = array(
-			"userId" => $data["id"]
+			"userId" => $data["userId"]
 		);
 
 		$response["error"] = false;

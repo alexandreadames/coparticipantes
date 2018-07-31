@@ -37,7 +37,7 @@ require_once("routes/donations-routes.php");
 require_once("routes/location-routes.php");
 
 //Test Routes COMMENTED
-//require_once("routes/test-routes.php");
+require_once("routes/test-routes.php");
 
 
 //Run Slim

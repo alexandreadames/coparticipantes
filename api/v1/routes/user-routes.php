@@ -78,6 +78,8 @@ $app->get('/secure/user-personaldata-profile', function (Request $request, Respo
     "date_of_birth": "1984-08-11", 
     "sex": "M" 
 }
+
+
  */
 $app->post('/user/register', function (Request $request, Response $response) use ($app) {
 
