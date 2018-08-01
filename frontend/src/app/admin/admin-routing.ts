@@ -3,13 +3,15 @@ import { Routes } from '@angular/router';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { IconsComponent } from './components/icons/icons.component';
-
+import { 
+  AuthGuardService as AuthGuard 
+} from '../services/auth-guard.service';
 
 export const AdminRoutes: Routes = [
     {
       path: 'admin',
       component: AdminComponent,
-      //canActivate: [AuthGuard],
+      canActivate: [AuthGuard],
       children: [
         {
           path: '',

@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,8 +12,13 @@ export class LoginComponent implements OnInit {
     data : Date = new Date();
     focus;
     focus1;
+    email;
+    password;
 
-    constructor() { }
+    constructor(
+        private userService: UserService,
+        private router: Router
+    ) { }
 
     ngOnInit() {
         var body = document.getElementsByTagName('body')[0];
@@ -26,6 +33,19 @@ export class LoginComponent implements OnInit {
 
         var navbar = document.getElementsByTagName('nav')[0];
         navbar.classList.remove('navbar-transparent');
+    }
+
+    login(){
+        this.userService.login(this.email, this.password).subscribe(
+            res=> {
+                localStorage.setItem("userToken", res.data.token);
+                this.router.navigate(["/admin"]);
+                console.log(res);
+            },
+            error=> {
+                console.log(error);
+            }
+          );
     }
 
 }

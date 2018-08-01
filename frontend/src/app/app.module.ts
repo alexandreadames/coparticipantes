@@ -15,7 +15,11 @@ import { LandingComponent } from './landing/landing.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminModule } from './admin/admin.module';
 import { RegisterComponent } from './register/register.component';
+
+//My Services
 import { UserService } from './services/user.service';
+import { AuthService } from './services/auth-service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 
 
@@ -37,7 +41,11 @@ import { UserService } from './services/user.service';
     LoginComponent,
     RegisterComponent
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    AuthGuardService, 
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

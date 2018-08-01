@@ -16,6 +16,7 @@ export class UserService {
   baseApiUrl: string = environment.baseApiUrl;
   //testUrl: string = `${this.baseApiUrl}/test/register/error`;
   registerUrl: string = `${this.baseApiUrl}/user/register`;
+  loginUrl: string = `${this.baseApiUrl}/user/login`;
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +25,16 @@ export class UserService {
     res=>res, 
     err=>err
    )
+  }
+
+  public login(email, password){
+    return this.http.post<any>(this.loginUrl, {
+      email,
+      password
+    }).pipe(
+      res=>res, 
+      err=>err
+     )
   }
 
 }
