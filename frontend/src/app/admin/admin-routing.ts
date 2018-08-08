@@ -1,3 +1,5 @@
+import { CreateBankAccountComponent } from './components/bank-accounts/create-bank-account/create-bank-account.component';
+import { BankAccountsComponent } from './components/bank-accounts/bank-accounts.component';
 import { AdminComponent } from './admin.component';
 import { Routes } from '@angular/router';
 
@@ -25,6 +27,14 @@ export const AdminRoutes: Routes = [
         {
           path: 'icons',
           component: IconsComponent
+        },
+        {
+          path: 'bank-accounts',
+          component: BankAccountsComponent
+        },
+        {
+          path: 'bank-accounts/create',
+          component: CreateBankAccountComponent
         }
       ]
       

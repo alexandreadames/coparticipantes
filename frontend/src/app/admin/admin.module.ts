@@ -1,6 +1,9 @@
+import { BankAccountsComponent } from './components/bank-accounts/bank-accounts.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +16,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { IconsComponent } from './components/icons/icons.component';
 
 import { AdminRoutes } from './admin-routing';
+import { CreateBankAccountComponent } from './components/bank-accounts/create-bank-account/create-bank-account.component';
 
 
 
@@ -22,6 +26,8 @@ import { AdminRoutes } from './admin-routing';
     CommonModule,
     ChartsModule,
     NgbModule,
+    FormsModule,
+    HttpClientModule,
     //ToastrModule.forRoot()
   ],
   declarations: [
@@ -29,7 +35,9 @@ import { AdminRoutes } from './admin-routing';
     AdminSidebarComponent,
     AdminFooterComponent,
     DashboardComponent,
-    IconsComponent
+    IconsComponent,
+    BankAccountsComponent,
+    CreateBankAccountComponent
   ],
   exports: [
     AdminNavbarComponent,
