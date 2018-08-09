@@ -29,7 +29,8 @@
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.min.js",
-        "../node_modules/rellax/rellax.min.js"
+        "../node_modules/rellax/rellax.min.js",
+        "../node_modules/bank-account-validator/dist/bank-account-validator.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

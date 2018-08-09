@@ -27,6 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "2.0.0",
     "ajv": "6.2.1",
     "ajv-keywords": "3.1.0",
+    "bank-account-validator": "git+https://github.com/moip/bank-account-validator-js.git",
     "bootstrap": "4.1.0",
     "chart.js": "2.7.2",
     "chartist": "0.11.0",
