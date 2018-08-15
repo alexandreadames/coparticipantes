@@ -1,8 +1,25 @@
 <div class="panel-header panel-header-sm">
 </div>
 <div class="main-content">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-12">
+        <div class="alert alert-success" role="alert">
+            <div class="container">
+                <div class="alert-icon">
+                    <i class="now-ui-icons ui-2_like"></i>
+                </div>
+                <strong>Well done!</strong> You successfully read this important alert message.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+  </div> -->
+  <div class="row">
+    <div class="col-md-8 mx-auto">
       <div class="card">
         <div class="card-header">
           <h5 class="title">Nova Conta Bancária</h5>
@@ -10,18 +27,25 @@
         <div class="card-body">
           <form>
             <div class="row">
-              <div class="col-md-6 pr-1">
+              <div class="col-md-12">
                 <div class="form-group">
                   <label>Banco</label>
-                  <select 
+                  <select
                     class="form-control" 
                     name="select_bank"        
                     [(ngModel)]="selectedBank"
-                  >
+                    #selectBanks="ngModel"
+                    [ngClass]="{ 'is-invalid': selectBanks.errors}"
+                    required >
                     <option *ngFor="let bank of banks" [ngValue]="bank">
                             {{bank.name}}
                     </option>
+                    
                   </select>
+                  <div *ngIf="selectBanks.errors" class="invalid-feedback">
+                      <div *ngIf="selectBanks.errors.required">Selecione um Banco</div>
+                  </div>
+                  
                 </div>
               </div>
               <!-- <div class="col-md-3 px-1">
@@ -38,27 +62,33 @@
               </div> -->
             </div>
             <div class="row">
-              <div class="col-md-6 pr-1">
+              <div class="col-md-5 pr-1">
                 <div class="form-group">
                   <label>Agência</label>
-                  <input type="text" class="form-control" placeholder="Ex. 0036-1" [(ngModel)]="bank.agencyNumber" name="agencyNumber">
+                  <input type="text" class="form-control" placeholder="Ex. 0036-1" [(ngModel)]="bank.agencyNumber" name="agencyNumber" [ngClass]="{ 'is-invalid': abv_errors.invalidAgencyNumber.msg}">
+                  <div *ngIf="abv_errors.invalidAgencyNumber.msg" class="invalid-feedback">
+                      <div>{{abv_errors.invalidAgencyNumber.msg}}</div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-6 pl-1">
+              <div class="col-md-4 pr-1">
                 <div class="form-group">
                   <label>Dígito</label>
-                  <input type="text" class="form-control" placeholder="Dígito da Agência" [(ngModel)]="bank.agencyCheckNumber" name="agencyCheckNumber">
+                  <input type="text" class="form-control" placeholder="Dígito da Agência" [(ngModel)]="bank.agencyCheckNumber" name="agencyCheckNumber" [ngClass]="{ 'is-invalid': abv_errors.invalidAgencyCheckNumber.msg}">
+                  <div *ngIf="abv_errors.invalidAgencyCheckNumber.msg" class="invalid-feedback">
+                      <div>{{abv_errors.invalidAgencyCheckNumber.msg}}</div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 pr-1">
+              <div class="col-md-5 pr-1">
                 <div class="form-group">
                   <label>Conta</label>
                   <input type="text" class="form-control" placeholder="3134-1" [(ngModel)]="bank.accountNumber" name="accountNumber">
                 </div>
               </div>
-              <div class="col-md-6 pr-1">
+              <div class="col-md-4 pr-1">
                 <div class="form-group">
                   <label>Dígito</label>
                   <input type="text" class="form-control" placeholder="Dígito da Conta" [(ngModel)]="bank.accountCheckNumber" name="accountCheckNumber">
@@ -96,7 +126,7 @@
                 <div class="form-group">
                   <!-- <label>About Me</label>
                   <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea> -->
-                  <button (click)="validate()" class="btn btn-primary">Adicionar</button>
+                  <button (click)="validate()" class="btn btn-lg btn-primary btn-block">Adicionar</button>
                 </div>
               </div>
             </div>

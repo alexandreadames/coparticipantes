@@ -1,15 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import 'bank-account-validator/dist/bank-account-validator.min';
+import * as $ from 'jquery';
 
 declare var Moip: any;
 
 //Models
 import { BankAccount } from './../../../../models/BankAccount';
+import { Bank } from './../../../../models/Bank';
 
 
 //enviroment
 import { environment } from 'environments/environment';
+
+interface AccountBankValidationErrors {
+  invalidAgencyNumber: {
+    code: string,
+    msg: string
+  },
+  invalidAgencyCheckNumber: {
+    code: string,
+    msg: string
+  }
+};
 
 @Component({
   selector: 'app-create-bank-account',
@@ -27,11 +39,24 @@ export class CreateBankAccountComponent implements OnInit {
     accountCheckNumber: 0,
     id_account_type: 0
   };
-  selectedBank: number;
+
+  abv_errors: AccountBankValidationErrors = {
+    invalidAgencyNumber:{
+      code: 'INVALID_AGENCY_NUMBER',
+      msg: ''
+    },
+    invalidAgencyCheckNumber: {
+      code: 'INVALID_AGENCY_CHECK_NUMBER',
+      msg: ''
+    }
+  };
+
+  selectedBank: Bank;
   baseApiUrl: string = environment.baseApiUrl;
   banksUrl: string = `${this.baseApiUrl}/secure/banks`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+  }
 
   ngOnInit() {
     this.loadBanks();
@@ -57,6 +82,9 @@ export class CreateBankAccountComponent implements OnInit {
   }
 
   validate(){
+    let $ = this;
+    //Clear errors msgs
+    $.abv_errors.invalidAgencyNumber.msg = '';
     //Use moip library account validator in front
     Moip.BankAccount.validate({
       bankNumber         : this.selectedBank.code,
@@ -68,11 +96,26 @@ export class CreateBankAccountComponent implements OnInit {
         alert("Conta bancária válida")
       },
       invalid: function(data) {
-        var errors = "Conta bancária inválida: \n";
+        let errors = "Conta bancária inválida: \n";
         for(let i in data.errors){
           errors += data.errors[i].description + "-" + data.errors[i].code + ")\n";
+          //console.log(data.errors[i].code, data.errors[i].description);
+          switch (data.errors[i].code) {
+            case $.abv_errors.invalidAgencyNumber.code:
+              $.abv_errors.invalidAgencyNumber.msg = data.errors[i].description
+              break;
+              case $.abv_errors.invalidAgencyCheckNumber.code:
+              $.abv_errors.invalidAgencyCheckNumber.msg = data.errors[i].description
+              break;  
+          
+            default:
+              break;
+          }  
+          // if (data.errors[i].code === $.abv_errors.invalidAgencyNumber.code){
+          //   $.abv_errors.invalidAgencyNumber.msg = data.errors[i].description
+          // }
         }
-        alert(errors);
+        console.log("VALIDATION ERRORS",errors);
       }
     });
     console.log("ACCOUNT DATA=>",this.bank);
