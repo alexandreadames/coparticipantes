@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 //Retirar tempo de execução da página, usar com cuidado...
 set_time_limit(0);
@@ -9,14 +9,14 @@ const PASSWORD = "";
 const DBNAME = "coparticipantesdb";
 
 $conn = new PDO(
-			"mysql:dbname=".DBNAME.";host=".HOSTNAME, 
+			"mysql:dbname=".DBNAME.";host=".HOSTNAME,
 			USERNAME,
 			PASSWORD
 		);
 
 function select($conn, $rawQuery){
 
-	
+
 	$stmt = $conn->prepare($rawQuery);
 
 	$stmt->execute();
@@ -25,14 +25,16 @@ function select($conn, $rawQuery){
     		return $stmt->errorInfo();
 		}
 		else{
-			return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
-		}	
+			return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		}
 }
 
-$query = "select * from tbl_banks";
+$query = "select * from tbl_bankaccount";
 
 
 $entity_in_bd = select($conn, $query);
+
+print_r($entity_in_bd);
 
 $entity = $entity_in_bd[0];
 $entity_fields = array();
