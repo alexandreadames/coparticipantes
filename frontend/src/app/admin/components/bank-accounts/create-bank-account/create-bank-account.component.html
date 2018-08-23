@@ -85,13 +85,22 @@
               <div class="col-md-5 pr-1">
                 <div class="form-group">
                   <label>Conta</label>
-                  <input type="text" class="form-control" placeholder="3134-1" [(ngModel)]="bank.accountNumber" name="accountNumber">
+                  <input type="text" class="form-control" placeholder="3134-1" [(ngModel)]="bank.accountNumber" name="accountNumber"
+                  [ngClass]="{ 'is-invalid': abv_errors.invalidAccountNumber.msg}">
+                  <div *ngIf="abv_errors.invalidAccountNumber.msg" class="invalid-feedback">
+                    <div>{{abv_errors.invalidAccountNumber.msg}}</div>
+                </div>
                 </div>
               </div>
               <div class="col-md-4 pr-1">
                 <div class="form-group">
                   <label>Dígito</label>
-                  <input type="text" class="form-control" placeholder="Dígito da Conta" [(ngModel)]="bank.accountCheckNumber" name="accountCheckNumber">
+                  <input type="text" class="form-control" placeholder="Dígito da Conta" [(ngModel)]="bank.accountCheckNumber" name="accountCheckNumber"
+                  [ngClass]="{ 'is-invalid': abv_errors.invalidAccountCheckNumber.msg}"
+                  >
+                  <div *ngIf="abv_errors.invalidAccountCheckNumber.msg" class="invalid-feedback">
+                    <div>{{abv_errors.invalidAccountCheckNumber.msg}}</div>
+                </div>
                 </div>
               </div>
             </div>

@@ -20,6 +20,14 @@ interface AccountBankValidationErrors {
   invalidAgencyCheckNumber: {
     code: string,
     msg: string
+  },
+  invalidAccountNumber: {
+    code: string,
+    msg: string
+  },
+  invalidAccountCheckNumber: {
+    code: string,
+    msg: string
   }
 };
 
@@ -48,10 +56,27 @@ export class CreateBankAccountComponent implements OnInit {
     invalidAgencyCheckNumber: {
       code: 'INVALID_AGENCY_CHECK_NUMBER',
       msg: ''
+    },
+    invalidAccountNumber:{
+      code: 'INVALID_ACCOUNT_NUMBER',
+      msg: ''
+    },
+    invalidAccountCheckNumber:{
+      code: 'INVALID_ACCOUNT_CHECK_NUMBER',
+      msg: ''
     }
   };
 
-  selectedBank: Bank;
+  selectedBank: Bank = {
+    id: 0,
+    name: null,
+    initials: null,
+    code: "0",
+    jurisdiction: null,
+    website: null,
+    id_country: 0
+
+  };
   baseApiUrl: string = environment.baseApiUrl;
   banksUrl: string = `${this.baseApiUrl}/secure/banks`;
 
@@ -84,7 +109,7 @@ export class CreateBankAccountComponent implements OnInit {
   validate(){
     let $ = this;
     //Clear errors msgs
-    $.abv_errors.invalidAgencyNumber.msg = '';
+    this.clearErrorsMsgs();
     //Use moip library account validator in front
     Moip.BankAccount.validate({
       bankNumber         : this.selectedBank.code,
@@ -93,7 +118,10 @@ export class CreateBankAccountComponent implements OnInit {
       accountNumber      : this.bank.accountNumber,
       accountCheckNumber : this.bank.accountCheckNumber,
       valid: function() {
-        alert("Conta bancária válida")
+        //if valid bank account show data
+        //alert("Conta bancária válida")
+        console.log("ACCOUNT DATA=>",$.bank);
+        console.log("SELECTED BANK=>", $.selectedBank);
       },
       invalid: function(data) {
         let errors = "Conta bancária inválida: \n";
@@ -106,8 +134,13 @@ export class CreateBankAccountComponent implements OnInit {
               break;
               case $.abv_errors.invalidAgencyCheckNumber.code:
               $.abv_errors.invalidAgencyCheckNumber.msg = data.errors[i].description
-              break;  
-          
+              break; 
+              case $.abv_errors.invalidAccountNumber.code:
+              $.abv_errors.invalidAccountNumber.msg = data.errors[i].description
+              break;
+              case $.abv_errors.invalidAccountCheckNumber.code:
+              $.abv_errors.invalidAccountCheckNumber.msg = data.errors[i].description
+              break;
             default:
               break;
           }  
@@ -118,8 +151,13 @@ export class CreateBankAccountComponent implements OnInit {
         console.log("VALIDATION ERRORS",errors);
       }
     });
-    console.log("ACCOUNT DATA=>",this.bank);
-    console.log("SELECTED BANK=>", this.selectedBank);
+  }
+
+  clearErrorsMsgs(){
+   this.abv_errors.invalidAgencyNumber.msg = '';
+   this.abv_errors.invalidAgencyCheckNumber.msg = '';
+   this.abv_errors.invalidAccountNumber.msg = '';
+   this.abv_errors.invalidAccountCheckNumber.msg = '';
   }
 
 }
