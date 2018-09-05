@@ -17,6 +17,17 @@ public function getBanks(){
 		return $results;
 }
 
+public function getAccountTypes(){
+
+		$sql = new SQLUtils();
+
+		$results = $sql->select(
+			"SELECT * from tbl_account_type"
+		);
+
+		return $results;
+}
+
 public function addUserBankAccount($bankAccount){
 
 	$sql = new SQLUtils();

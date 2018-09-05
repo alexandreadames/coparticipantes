@@ -35,6 +35,22 @@ $app->get('/secure/banks', function (Request $request, Response $response) use (
 });
 
 /**
+ * Pega uma lista de Tipos de conta
+ */
+$app->get('/secure/accounttypes', function (Request $request, Response $response) use ($app) {
+
+        $banksDAO = new BanksDAO();
+
+        $result = $banksDAO->getAccountTypes();
+
+        $return = $response->withJson($result, 200)
+            ->withHeader('Content-type', 'application/json');
+
+        return $return;
+
+});
+
+/**
  * Insert a user account bank
  */
 $app->post('/secure/user/bankaccount', function (Request $request, Response $response) use ($app) {

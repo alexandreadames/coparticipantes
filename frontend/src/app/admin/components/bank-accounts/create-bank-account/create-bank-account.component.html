@@ -35,7 +35,7 @@
                     name="select_bank"        
                     [(ngModel)]="selectedBank"
                     #selectBanks="ngModel"
-                    [ngClass]="{ 'is-invalid': selectBanks.errors}"
+                    [ngClass]="{ 'is-invalid': selectBanks.errors || abv_errors.invalidBankNumber.msg}"
                     required >
                     <option *ngFor="let bank of banks" [ngValue]="bank">
                             {{bank.name}}
@@ -45,6 +45,9 @@
                   <div *ngIf="selectBanks.errors" class="invalid-feedback">
                       <div *ngIf="selectBanks.errors.required">Selecione um Banco</div>
                   </div>
+                  <div *ngIf="abv_errors.invalidBankNumber.msg" class="invalid-feedback">
+                    <div>{{abv_errors.invalidBankNumber.msg}}</div>
+                </div>
                   
                 </div>
               </div>
@@ -74,10 +77,13 @@
               <div class="col-md-4 pr-1">
                 <div class="form-group">
                   <label>Dígito</label>
-                  <input type="text" class="form-control" placeholder="Dígito da Agência" [(ngModel)]="bank.agencyCheckNumber" name="agencyCheckNumber" [ngClass]="{ 'is-invalid': abv_errors.invalidAgencyCheckNumber.msg}">
+                  <input type="text" class="form-control" placeholder="Dígito da Agência" [(ngModel)]="bank.agencyCheckNumber" name="agencyCheckNumber" [ngClass]="{ 'is-invalid': abv_errors.invalidAgencyCheckNumber.msg || abv_errors.invalidAgencyCheckNumberDontMatch.msg }">
                   <div *ngIf="abv_errors.invalidAgencyCheckNumber.msg" class="invalid-feedback">
                       <div>{{abv_errors.invalidAgencyCheckNumber.msg}}</div>
                   </div>
+                  <div *ngIf="abv_errors.invalidAgencyCheckNumberDontMatch.msg" class="invalid-feedback">
+                    <div>{{abv_errors.invalidAgencyCheckNumberDontMatch.msg}}</div>
+                </div>
                 </div>
               </div>
             </div>
@@ -96,11 +102,14 @@
                 <div class="form-group">
                   <label>Dígito</label>
                   <input type="text" class="form-control" placeholder="Dígito da Conta" [(ngModel)]="bank.accountCheckNumber" name="accountCheckNumber"
-                  [ngClass]="{ 'is-invalid': abv_errors.invalidAccountCheckNumber.msg}"
+                  [ngClass]="{ 'is-invalid': abv_errors.invalidAccountCheckNumber.msg || abv_errors.invalidAccountCheckNumberDontMatch.msg}"
                   >
                   <div *ngIf="abv_errors.invalidAccountCheckNumber.msg" class="invalid-feedback">
                     <div>{{abv_errors.invalidAccountCheckNumber.msg}}</div>
                 </div>
+                <div *ngIf="abv_errors.invalidAccountCheckNumberDontMatch.msg" class="invalid-feedback">
+                  <div>{{abv_errors.invalidAccountCheckNumberDontMatch.msg}}</div>
+              </div>
                 </div>
               </div>
             </div>
@@ -112,8 +121,9 @@
                   class="form-control" 
                   name="select_account_type"        
                   [(ngModel)]="selectedAccountType">
-                    <option value="1">Conta Corrente</option>
-                    <option value="2">Conta Poupança</option>
+                  <option *ngFor="let accountType of accountTypes" [ngValue]="accountType">
+                    {{accountType.description}}
+                  </option>
                 </select>
                 </div>
               </div>

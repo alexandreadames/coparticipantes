@@ -7,12 +7,16 @@ declare var Moip: any;
 //Models
 import { BankAccount } from './../../../../models/BankAccount';
 import { Bank } from './../../../../models/Bank';
-
+import { AccountType } from './../../../../models/AccountType';
 
 //enviroment
 import { environment } from 'environments/environment';
 
 interface AccountBankValidationErrors {
+  invalidBankNumber: {
+    code: string,
+    msg: string
+  },
   invalidAgencyNumber: {
     code: string,
     msg: string
@@ -28,6 +32,14 @@ interface AccountBankValidationErrors {
   invalidAccountCheckNumber: {
     code: string,
     msg: string
+  },
+  invalidAgencyCheckNumberDontMatch: {
+    code: string,
+    msg: string
+  },
+  invalidAccountCheckNumberDontMatch: {
+    code: string,
+    msg: string
   }
 };
 
@@ -38,7 +50,8 @@ interface AccountBankValidationErrors {
 })
 export class CreateBankAccountComponent implements OnInit {
 
-  banks: {};
+  banks: Bank[];
+  accountTypes: AccountType[];
   bank: BankAccount = {
     id_bank: 0,
     agencyNumber: 0,
@@ -49,6 +62,10 @@ export class CreateBankAccountComponent implements OnInit {
   };
 
   abv_errors: AccountBankValidationErrors = {
+    invalidBankNumber:{
+      code: 'INVALID_BANK_NUMBER',
+      msg: ''
+    },
     invalidAgencyNumber:{
       code: 'INVALID_AGENCY_NUMBER',
       msg: ''
@@ -64,6 +81,14 @@ export class CreateBankAccountComponent implements OnInit {
     invalidAccountCheckNumber:{
       code: 'INVALID_ACCOUNT_CHECK_NUMBER',
       msg: ''
+    },
+    invalidAgencyCheckNumberDontMatch:{
+      code: 'AGENCY_CHECK_NUMBER_DONT_MATCH',
+      msg: ''
+    },
+    invalidAccountCheckNumberDontMatch:{
+      code: 'ACCOUNT_CHECK_NUMBER_DONT_MATCH',
+      msg: ''
     }
   };
 
@@ -77,19 +102,27 @@ export class CreateBankAccountComponent implements OnInit {
     id_country: 0
 
   };
+
+  selectedAccountType: AccountType = {
+    id: 0,
+    description: ''
+  }
+
   baseApiUrl: string = environment.baseApiUrl;
   banksUrl: string = `${this.baseApiUrl}/secure/banks`;
+  accountTypesUrl: string = `${this.baseApiUrl}/secure/accounttypes`;
 
   constructor(private http: HttpClient) { 
   }
 
   ngOnInit() {
     this.loadBanks();
+    this.loadAccountTypes();
   }
 
   loadBanks() {
 
-    this.http.get(this.banksUrl,{
+    this.http.get<Bank[]>(this.banksUrl,{
 
       headers: new HttpHeaders().set('Authorization', 'Bearer '+localStorage.getItem("userToken"))
   
@@ -97,6 +130,25 @@ export class CreateBankAccountComponent implements OnInit {
       res => {
         console.log("RESPONSE=>", res);
         this.banks = res;
+    },
+        err => {
+          console.log("ERROR=>",err);
+
+        }
+  );
+
+  }
+
+  loadAccountTypes() {
+
+    this.http.get<AccountType[]>(this.accountTypesUrl,{
+
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+localStorage.getItem("userToken"))
+  
+    }).subscribe(
+      res => {
+        console.log("RESPONSE=>", res);
+        this.accountTypes = res;
     },
         err => {
           console.log("ERROR=>",err);
@@ -119,9 +171,10 @@ export class CreateBankAccountComponent implements OnInit {
       accountCheckNumber : this.bank.accountCheckNumber,
       valid: function() {
         //if valid bank account show data
-        //alert("Conta bancária válida")
+        console.log("Conta bancária válida");
         console.log("ACCOUNT DATA=>",$.bank);
         console.log("SELECTED BANK=>", $.selectedBank);
+        console.log("SELECTED ACCOUNT TYPE=>",$.selectedAccountType);
       },
       invalid: function(data) {
         let errors = "Conta bancária inválida: \n";
@@ -129,17 +182,26 @@ export class CreateBankAccountComponent implements OnInit {
           errors += data.errors[i].description + "-" + data.errors[i].code + ")\n";
           //console.log(data.errors[i].code, data.errors[i].description);
           switch (data.errors[i].code) {
-            case $.abv_errors.invalidAgencyNumber.code:
-              $.abv_errors.invalidAgencyNumber.msg = data.errors[i].description
+              case $.abv_errors.invalidBankNumber.code:
+                $.abv_errors.invalidBankNumber.msg = data.errors[i].description
+              break;
+              case $.abv_errors.invalidAgencyNumber.code:
+                $.abv_errors.invalidAgencyNumber.msg = data.errors[i].description
               break;
               case $.abv_errors.invalidAgencyCheckNumber.code:
-              $.abv_errors.invalidAgencyCheckNumber.msg = data.errors[i].description
+                $.abv_errors.invalidAgencyCheckNumber.msg = data.errors[i].description
               break; 
               case $.abv_errors.invalidAccountNumber.code:
-              $.abv_errors.invalidAccountNumber.msg = data.errors[i].description
+                $.abv_errors.invalidAccountNumber.msg = data.errors[i].description
               break;
               case $.abv_errors.invalidAccountCheckNumber.code:
-              $.abv_errors.invalidAccountCheckNumber.msg = data.errors[i].description
+                $.abv_errors.invalidAccountCheckNumber.msg = data.errors[i].description
+              break;
+              case $.abv_errors.invalidAgencyCheckNumberDontMatch.code:
+                $.abv_errors.invalidAgencyCheckNumberDontMatch.msg = data.errors[i].description
+              break;
+              case  $.abv_errors.invalidAccountCheckNumberDontMatch.code:
+                $.abv_errors.invalidAccountCheckNumberDontMatch.msg = data.errors[i].description
               break;
             default:
               break;
@@ -154,10 +216,13 @@ export class CreateBankAccountComponent implements OnInit {
   }
 
   clearErrorsMsgs(){
+   this.abv_errors.invalidBankNumber.msg = '';
    this.abv_errors.invalidAgencyNumber.msg = '';
    this.abv_errors.invalidAgencyCheckNumber.msg = '';
    this.abv_errors.invalidAccountNumber.msg = '';
    this.abv_errors.invalidAccountCheckNumber.msg = '';
+   this.abv_errors.invalidAgencyCheckNumberDontMatch.msg = '';
+   this.abv_errors.invalidAccountCheckNumberDontMatch.msg = '';
   }
 
 }
