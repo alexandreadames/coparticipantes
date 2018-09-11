@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
 
 declare var Moip: any;
 
@@ -111,6 +110,7 @@ export class CreateBankAccountComponent implements OnInit {
   baseApiUrl: string = environment.baseApiUrl;
   banksUrl: string = `${this.baseApiUrl}/secure/banks`;
   accountTypesUrl: string = `${this.baseApiUrl}/secure/accounttypes`;
+  bankAccountUrl: string = `${this.baseApiUrl}/secure/user/bankaccount`;
 
   constructor(private http: HttpClient) { 
   }
@@ -158,6 +158,22 @@ export class CreateBankAccountComponent implements OnInit {
 
   }
 
+  createUserBankAccount(){
+    this.http.post(this.bankAccountUrl, this.bank, {
+
+      headers: new HttpHeaders().set('Authorization', 'Bearer '+localStorage.getItem("userToken"))
+  
+    }).subscribe(
+      res => {
+        console.log("RESPONSE=>", res);
+    },
+        err => {
+          console.log("ERROR=>",err);
+
+        }
+  );
+  }
+
   validate(){
     let $ = this;
     //Clear errors msgs
@@ -172,9 +188,12 @@ export class CreateBankAccountComponent implements OnInit {
       valid: function() {
         //if valid bank account show data
         console.log("Conta bancária válida");
+        $.bank.id_bank = $.selectedBank.id;
+        $.bank.id_account_type = $.selectedAccountType.id;
         console.log("ACCOUNT DATA=>",$.bank);
         console.log("SELECTED BANK=>", $.selectedBank);
         console.log("SELECTED ACCOUNT TYPE=>",$.selectedAccountType);
+        $.createUserBankAccount();
       },
       invalid: function(data) {
         let errors = "Conta bancária inválida: \n";

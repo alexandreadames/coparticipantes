@@ -64,6 +64,28 @@ public function addUserBankAccount($bankAccount){
 
 }
 
+public function getUserBankAccounts($id_user){
+	$sql = new SQLUtils();
+
+		$results = $sql->select(
+			"SELECT b.name AS bank,
+	       ba.agencyNumber,
+	       ba.agencyCheckNumber,
+	       ba.accountNumber,
+	       ba.accountCheckNumber,
+	       acc_type.description AS accountType
+				FROM tbl_bankaccount ba
+				INNER JOIN tbl_banks b ON ba.id_bank = b.id
+				INNER JOIN tbl_account_type acc_type ON ba.id_account_type = acc_type.id
+				WHERE id_user = :id_user",
+				array(
+				":id_user"=>$id_user
+			)
+		);
+
+		return $results;
+}
+
 
 }
 

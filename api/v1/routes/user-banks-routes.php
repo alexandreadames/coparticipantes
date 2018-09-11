@@ -80,5 +80,27 @@ $app->post('/secure/user/bankaccount', function (Request $request, Response $res
 
 });
 
+/**
+ * Insert a user account bank
+ */
+$app->get('/secure/user/bankaccount', function (Request $request, Response $response) use ($app) {
+
+        $params = (object) $request->getParams();
+
+        $decoded_token = TokenUtils::decodeToken($request);
+
+        $banksDAO = new BanksDAO();
+
+        $id_user = ((int) $decoded_token["userId"]);
+
+        $result = $banksDAO->getUserBankAccounts($id_user);
+
+        $return = $response->withJson($result, 200)
+            ->withHeader('Content-type', 'application/json');
+
+        return $return;
+
+});
+
 
 ?>

@@ -26,32 +26,18 @@
                 </th>
               </thead>
               <tbody>
-                <tr>
+                <tr *ngFor="let userBankAccount of userBankAccounts">
                   <td>
-                    Banco do Brasil
+                    {{userBankAccount.bank}}
                   </td>
                   <td>
-                    36-1
+                    {{userBankAccount.agencyNumber}}-{{userBankAccount.agencyCheckNumber}}
                   </td>
                   <td>
-                    121842-5
+                    {{userBankAccount.accountNumber}}-{{userBankAccount.accountCheckNumber}}
                   </td>
                   <td>
-                    Corrente
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Caixa
-                  </td>
-                  <td>
-                    1013
-                  </td>
-                  <td>
-                    21311-1
-                  </td>
-                  <td>
-                    Corrente
+                    {{userBankAccount.accountType}}
                   </td>
                 </tr>
               </tbody>
